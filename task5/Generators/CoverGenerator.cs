@@ -22,10 +22,10 @@ public class CoverGenerator
         _artistFont = family.CreateFont(33);
     }
 
-    public byte[] Generate(long seed, int index, string album, string artist)
+    public byte[] Generate(long seed, int page, int index, string locale, string album, string artist)
     {
-        var albumSeed = HashCode.Combine(seed, album);
-        var random = new Random(albumSeed);
+        var songSeed = HashCode.Combine(seed, page, index, locale);
+        var random = new Random(songSeed);
 
         using var image = new Image<Rgba32>(512, 512);
 
@@ -71,8 +71,8 @@ public class CoverGenerator
 
         image.Mutate(x =>
         {
-            x.DrawText(album, _titleFont, Color.White, new PointF(40, 220));
-            x.DrawText(artist, _artistFont, Color.LightGray, new PointF(40, 280));
+            x.DrawText(album, _titleFont, Color.White, new PointF(40, 190));
+            x.DrawText(artist, _artistFont, Color.LightGray, new PointF(40, 260));
         });
 
         using var ms = new MemoryStream();

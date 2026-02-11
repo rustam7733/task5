@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using task5.Generators;
+using Task5.Generators;
 
 namespace Task5.Controllers;
 
@@ -15,9 +15,9 @@ public class AudioController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get(long seed, int index)
+    public IActionResult Get(long seed, int page, int index)
     {
-        var bytes = _audio.Generate(seed, index);
+        var bytes = _audio.Generate(seed, page, index);
         return File(bytes, "audio/wav");
     }
 }

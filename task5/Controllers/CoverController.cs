@@ -1,17 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Emit;
 using Task5.Generators;
 
 namespace Task5.Controllers;
 
 [ApiController]
 [Route("api/cover")]
-public class CoverController(CoverGenerator coverGenerator) : ControllerBase
+public class CoverController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult Get(long seed, int index, string album, string artist)
+    private readonly CoverGenerator _generator;
+
+    public CoverController(CoverGenerator generator)
     {
-        var bytes = coverGenerator.Generate(seed, index, album, artist);
+        _generator = generator;
+    }
+
+    [HttpGet]
+    public IActionResult Get(long seed, int page, int index, string locale, string album, string artist)
+    {
+        var bytes = _generator.Generate(seed, page, index, locale, album, artist);
         return File(bytes, "image/png");
     }
 }

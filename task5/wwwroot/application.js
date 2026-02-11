@@ -71,7 +71,7 @@ function render(data) {
         div.className = "card"
 
         div.innerHTML = `
-            <img src="/api/cover?seed=${seedEl.value}&index=${s.index}&album=${encodeURIComponent(s.album)}&artist=${encodeURIComponent(s.artist)}">
+            <img src="/api/cover?seed=${seedEl.value}&page=${page}&index=${s.index}&locale=${localeEl.value}&album=${encodeURIComponent(s.album)}&artist=${encodeURIComponent(s.artist)}">
 
             <div class="meta">
                 <div class="title">${s.title}</div>
@@ -80,7 +80,7 @@ function render(data) {
                 <div class="likes" id="likes-${s.index}">Likes: ${s.likes}</div>
             </div>
 
-            <audio controls src="/api/audio?seed=${seedEl.value}&index=${s.index}"></audio>
+            <audio controls src="/api/audio?seed=${seedEl.value}&page=${page}&index=${s.index}"></audio>
         `
         grid.appendChild(div)
     })
