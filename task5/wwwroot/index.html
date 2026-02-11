@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Task5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="toolbar">
+        <select id="locale">
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+        </select>
+
+        <input type="number" id="seed" value="1">
+        <button id="randomSeed">Random</button>
+
+        <input type="range" id="likes" min="0" max="10" step="0.1" value="3">
+        <span id="likesValue">3</span>
+    </div>
+
+    <div id="grid"></div>
+
+    <div class="pagination">
+        <button id="prev">Prev</button>
+        <span id="pageNum">1</span>
+        <button id="next">Next</button>
+    </div>
+
+    <script src="application.js"></script>
+</body>
+</html>
