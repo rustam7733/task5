@@ -15,7 +15,7 @@ public class CoverGenerator
     public CoverGenerator(IWebHostEnvironment env)
     {
         var collection = new FontCollection();
-        var fontPath = Path.Combine(env.ContentRootPath, "Assets", "Fonts", "AAdemyacttItalic.ttf");
+        var fontPath = Path.Combine(env.ContentRootPath, "Assets", "Fonts", "Involve-Bold.ttf");
         var family = collection.Add(fontPath);
 
         _titleFont = family.CreateFont(54, FontStyle.Bold);
@@ -27,7 +27,7 @@ public class CoverGenerator
         var songSeed = HashCode.Combine(seed, page, index, locale);
         var random = new Random(songSeed);
 
-        using var image = new Image<Rgba32>(512, 512);
+        using var image = new Image<Rgba32>(700, 512);
 
         int style = random.Next(4);
 

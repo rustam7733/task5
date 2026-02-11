@@ -12,41 +12,79 @@
     background: #1b1b1b;
 }
 
-#grid {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 20px;
-    padding: 20px;
+.songs-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.card {
-    background: #1a1a1a;
-    padding: 10px;
-}
-
-    .card img {
-        width: 100%;
+    .songs-table th,
+    .songs-table td {
+        padding: 10px;
+        border-bottom: 1px solid #333;
     }
+
+    /* заголовок */
+    .songs-table thead {
+        background: #111;
+        color: white;
+    }
+
+    /* содержимое таблицы */
+    .songs-table tbody tr {
+        background: #202020;
+        color: #d6d6d6;
+    }
+
+.song-row {
+    cursor: pointer;
+}
+
+    .song-row:hover {
+        background: #2a2a2a;
+    }
+
+/* строка с деталями */
+.details {
+    background: #181818;
+}
+
+.details-content {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+    padding: 12px;
+}
+
+/* фиксированная высота обложек */
+.cover-fixed {
+    height: 160px;
+    width: auto;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 160px;
+}
+
+.meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+audio {
+    height: 40px;
+}
+
+.hidden {
+    display: none;
+}
 
 .pagination {
     display: flex;
     justify-content: center;
     gap: 20px;
     padding: 20px;
-}
-
-.meta {
-    padding: 6px 0;
-}
-
-.title {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.artist,
-.album,
-.likes {
-    font-size: 13px;
-    color: #bbb;
 }

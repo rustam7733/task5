@@ -26,14 +26,12 @@ document.getElementById("next").onclick = () => {
 
 localeEl.onchange = reload
 seedEl.oninput = reload
+
 likesEl.oninput = () => {
     likesValue.innerText = likesEl.value
 }
 
-likesEl.onchange = () => {
-    reloadLikes()
-}
-
+likesEl.onchange = reloadLikes
 
 function buildUrl() {
     return `/api/songs?seed=${seedEl.value}&page=${page}&locale=${localeEl.value}&likes=${likesEl.value}`
@@ -51,8 +49,7 @@ function reloadLikes() {
         .then(data => {
             data.forEach(s => {
                 const likeEl = document.getElementById(`likes-${s.index}`)
-                if (likeEl)
-                    likeEl.innerText = `Likes: ${s.likes}`
+                if (likeEl) likeEl.innerText = s.likes
             })
         })
 }
@@ -64,26 +61,85 @@ function load() {
 }
 
 function render(data) {
-    grid.innerHTML = ""
+
+    let html = `
+        <table class="songs-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                    <th>Genre</th>
+                    <th>Likes</th>
+                </tr>
+            </thead>
+            <tbody>
+    `
 
     data.forEach(s => {
-        const div = document.createElement("div")
-        div.className = "card"
+        html += `
+            <tr class="song-row"
+                onclick="toggleDetails(${s.index},
+                '${encodeURIComponent(s.album)}',
+                '${encodeURIComponent(s.artist)}',
+                '${encodeURIComponent(s.title)}',
+                '${encodeURIComponent(s.genre)}',
+                ${s.likes})">
 
-        div.innerHTML = `
-            <img src="/api/cover?seed=${seedEl.value}&page=${page}&index=${s.index}&locale=${localeEl.value}&album=${encodeURIComponent(s.album)}&artist=${encodeURIComponent(s.artist)}">
+                <td>${s.index}</td>
+                <td>${s.title}</td>
+                <td>${s.artist}</td>
+                <td>${s.album}</td>
+                <td>${s.genre}</td>
+                <td id="likes-${s.index}">${s.likes}</td>
+            </tr>
 
-            <div class="meta">
-                <div class="title">${s.title}</div>
-                <div class="artist">Artist: ${s.artist}</div>
-                <div class="album">Album: ${s.album}</div>
-                <div class="likes" id="likes-${s.index}">Likes: ${s.likes}</div>
-            </div>
+            <tr id="details-${s.index}" class="details hidden">
+                <td colspan="6">
+                    <div class="details-content">
 
-            <audio controls src="/api/audio?seed=${seedEl.value}&page=${page}&index=${s.index}"></audio>
+                        <img id="cover-${s.index}" class="cover-fixed">
+
+                        <div class="info">
+
+                            <div class="meta">
+                                <div><b>Title:</b> ${s.title}</div>
+                                <div><b>Artist:</b> ${s.artist}</div>
+                                <div><b>Album:</b> ${s.album}</div>
+                                <div><b>Genre:</b> ${s.genre}</div>
+                                <div><b>Likes:</b> <span id="likes-detail-${s.index}">${s.likes}</span></div>
+                            </div>
+
+                            <audio controls id="audio-${s.index}"></audio>
+
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
         `
-        grid.appendChild(div)
     })
+
+    html += "</tbody></table>"
+    grid.innerHTML = html
+}
+
+function toggleDetails(index, album, artist) {
+
+    const row = document.getElementById(`details-${index}`)
+    const hidden = row.classList.contains("hidden")
+
+    row.classList.toggle("hidden")
+
+    if (hidden) {
+
+        document.getElementById(`cover-${index}`).src =
+            `/api/cover?seed=${seedEl.value}&page=${page}&index=${index}&locale=${localeEl.value}&album=${album}&artist=${artist}`
+
+        document.getElementById(`audio-${index}`).src =
+            `/api/audio?seed=${seedEl.value}&page=${page}&index=${index}`
+    }
 }
 
 reload()
