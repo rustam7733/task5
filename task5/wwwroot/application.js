@@ -48,8 +48,12 @@ function reloadLikes() {
         .then(r => r.json())
         .then(data => {
             data.forEach(s => {
-                const likeEl = document.getElementById(`likes-${s.index}`)
-                if (likeEl) likeEl.innerText = s.likes
+
+                const likeCell = document.getElementById(`likes-${s.index}`)
+                if (likeCell) likeCell.innerText = s.likes
+
+                const likeDetail = document.getElementById(`likes-detail-${s.index}`)
+                if (likeDetail) likeDetail.innerText = s.likes
             })
         })
 }
@@ -84,8 +88,7 @@ function render(data) {
                 '${encodeURIComponent(s.album)}',
                 '${encodeURIComponent(s.artist)}',
                 '${encodeURIComponent(s.title)}',
-                '${encodeURIComponent(s.genre)}',
-                ${s.likes})">
+                '${encodeURIComponent(s.genre)}')">
 
                 <td>${s.index}</td>
                 <td>${s.title}</td>
@@ -125,7 +128,7 @@ function render(data) {
     grid.innerHTML = html
 }
 
-function toggleDetails(index, album, artist) {
+function toggleDetails(index, album, artist, title, genre) {
 
     const row = document.getElementById(`details-${index}`)
     const hidden = row.classList.contains("hidden")
@@ -139,6 +142,9 @@ function toggleDetails(index, album, artist) {
 
         document.getElementById(`audio-${index}`).src =
             `/api/audio?seed=${seedEl.value}&page=${page}&index=${index}`
+
+        const currentLikes = document.getElementById(`likes-${index}`).innerText
+        document.getElementById(`likes-detail-${index}`).innerText = currentLikes
     }
 }
 
